@@ -10,8 +10,9 @@ import lombok.experimental.SuperBuilder;
 @Data
 @AllArgsConstructor
 public class PopulationMessage extends Message{
-    public PopulationMessage(Individual[] population, int i) {
+    public PopulationMessage(Individual[] population, int i,int iteration) {
         this.setPopulation(population);
         this.setGeneration(i);
+        this.setIteration(iteration);
     }
 }

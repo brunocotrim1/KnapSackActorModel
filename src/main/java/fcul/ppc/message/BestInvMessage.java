@@ -12,9 +12,10 @@ import lombok.experimental.SuperBuilder;
 public class BestInvMessage extends Message{
     private Individual bestIndividual;
 
-    public BestInvMessage(Individual bestIndividual, Individual[] population, int i) {
+    public BestInvMessage(Individual bestIndividual, Individual[] population, int i,int iteration) {
         this.setBestIndividual(bestIndividual);
         this.setPopulation(population);
         this.setGeneration(i);
+        this.setIteration(iteration);
     }
 }

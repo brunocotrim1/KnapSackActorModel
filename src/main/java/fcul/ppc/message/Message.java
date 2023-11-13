@@ -6,4 +6,5 @@ import lombok.Data;
 public abstract class Message {
     private Individual[] population;
     private int generation;
+    private int iteration;
 }
