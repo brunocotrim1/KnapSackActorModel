@@ -12,11 +12,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static fcul.ppc.utils.Utils.POP_SIZE;
+import static fcul.ppc.utils.Utils.max_iterations;
 
 public class MainActor extends AbstractActor {
 
     private ActorRef fitnessActor;
-    private static int max_iterations = 1;
     private static int iteration = 0;
 
     public MainActor(ActorRef fitnessActor) {
