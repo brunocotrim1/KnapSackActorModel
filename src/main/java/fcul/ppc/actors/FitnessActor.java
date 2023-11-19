@@ -29,7 +29,10 @@ public class FitnessActor extends AbstractActor {
         return receiveBuilder()
                 .match(PopulationMessage.class, message -> {
 
-                    ParallelMeasureFitness(message.getPopulation());
+                    //ParallelMeasureFitness(message.getPopulation());
+                    for (int i = 0; i < POP_SIZE; i++) {
+                        message.getPopulation()[i].measureFitness();
+                    }
                     bestIndividualActor.tell(message, getSelf());
 
                 })

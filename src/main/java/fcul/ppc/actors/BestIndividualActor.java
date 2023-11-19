@@ -24,7 +24,8 @@ public class BestIndividualActor extends AbstractActor {
                     System.out.println("Best at generation " + message.getGeneration() + " is " + best + " with "
                             + best.fitness);
                     BestInvMessage bestInvMessage = new BestInvMessage(best,
-                            message.getPopulation(), message.getGeneration(),message.getIteration());
+                            message.getPopulation(), message.getGeneration(),message.getIteration(),
+                            message.getCreationTime());
                     crossOverActor.tell(bestInvMessage, getSelf());
                 })
                 .build();

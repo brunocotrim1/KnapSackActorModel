@@ -32,7 +32,7 @@ public class CrossoverActor extends AbstractActor {
                 newPopulation[i] = parent1.crossoverWith(parent2, ThreadLocalRandom.current());
             }
             PopulationMessage crossoverMessage = new PopulationMessage(newPopulation, message.getGeneration()
-                    , message.getIteration());
+                    , message.getIteration(), message.getCreationTime());
             mutateActor.tell(crossoverMessage, getSelf());
         }).build();
     }

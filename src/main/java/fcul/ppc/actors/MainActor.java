@@ -5,11 +5,9 @@ import akka.actor.ActorRef;
 import fcul.ppc.message.PopulationMessage;
 import fcul.ppc.message.StartMessage;
 import fcul.ppc.utils.Individual;
-import fcul.ppc.utils.IterationState;
 import fcul.ppc.utils.Utils;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Instant;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -18,6 +16,8 @@ import static fcul.ppc.utils.Utils.POP_SIZE;
 public class MainActor extends AbstractActor {
 
     private ActorRef fitnessActor;
+    private static int max_iterations = 1;
+    private static int iteration = 0;
 
     public MainActor(ActorRef fitnessActor) {
         this.fitnessActor = fitnessActor;
@@ -37,20 +37,29 @@ public class MainActor extends AbstractActor {
             System.out.println("Starting Iteration " + message.getIteration());
 
 
-            PopulationMessage populationMessage = new PopulationMessage(randomPopulation(), 0, message.getIteration());
+            PopulationMessage populationMessage = new PopulationMessage(randomPopulation(), 0,
+                    message.getIteration(), System.nanoTime());
             fitnessActor.tell(populationMessage, getSelf());
         }).match(PopulationMessage.class, message -> {
 
 
             if (message.getGeneration() == Utils.N_GENERATIONS) {
-                System.out.println("Finished iteration " + message.getIteration()
-                        + " with best individual " + Utils.bestOfPopulation(message.getPopulation()));
+                iteration++;
+                message.setFinishTime(System.nanoTime());
+                double timeTaken = (message.getFinishTime() - message.getCreationTime()) / 1E9;
+                System.out.println("Finished iteration " + message.getIteration() + " with best individual " +
+                        Utils.bestOfPopulation(message.getPopulation()) + "in " + timeTaken + " seconds");
+                if (iteration == max_iterations) {
+                    System.out.println("Finished all iterations");
+                    getContext().getSystem().terminate();
+                }
                 return;
             }
-            System.out.println("Starting generation " + message.getGeneration()
-                    + " of iteration " + message.getIteration());
+
+
+            System.out.println("Starting generation " + message.getGeneration() + " of iteration " + message.getIteration());
             PopulationMessage populationMessage = new PopulationMessage(message.getPopulation(),
-                    message.getGeneration() + 1, message.getIteration());
+                    message.getGeneration() + 1, message.getIteration(), message.getCreationTime());
             fitnessActor.tell(populationMessage, getSelf());
         }).build();
     }

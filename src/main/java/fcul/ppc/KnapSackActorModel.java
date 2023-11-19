@@ -21,8 +21,8 @@ public class KnapSackActorModel {
         ActorRef fitnessActor = system.actorOf(Props.create(FitnessActor.class,bestIndividualActor), "fitnessActor");
         ActorRef mainActor = system.actorOf(Props.create(MainActor.class,fitnessActor), "mainActor");
         MutateActor.mainActor = mainActor;
+      //  mainActor.tell(new StartMessage(0), ActorRef.noSender());
         mainActor.tell(new StartMessage(0), ActorRef.noSender());
-        mainActor.tell(new StartMessage(1), ActorRef.noSender());
 
         // Block and wait for the termination of the actor system
         Future<Terminated> terminationFuture = system.whenTerminated();
