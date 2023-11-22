@@ -1,9 +1,7 @@
 package fcul.ppc.actors;
 
-import akka.Main;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
-import akka.actor.Props;
 import fcul.ppc.message.PopulationMessage;
 
 import java.util.Random;

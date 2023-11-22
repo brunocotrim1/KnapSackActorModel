@@ -2,11 +2,8 @@ package fcul.ppc.actors;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
-import akka.actor.Props;
-import fcul.ppc.message.BestInvMessage;
 import fcul.ppc.message.PopulationMessage;
 import fcul.ppc.utils.Individual;
-import fcul.ppc.utils.Utils;
 
 public class BestIndividualActor extends AbstractActor {
 
@@ -20,16 +17,28 @@ public class BestIndividualActor extends AbstractActor {
     public Receive createReceive() {
         return receiveBuilder()
                 .match(PopulationMessage.class, message -> {
-                    Individual best = Utils.bestOfPopulation(message.getPopulation());
+                    Individual best = bestOfPopulation(message.getPopulation());
                     System.out.println("Best at generation " + message.getGeneration() + " is " + best + " with "
-                            + best.fitness);
-                    BestInvMessage bestInvMessage = new BestInvMessage(best,
-                            message.getPopulation(), message.getGeneration(),message.getIteration(),
-                            message.getCreationTime());
+                            + best.fitness + "f or iteration " + message.getIteration());
+                    PopulationMessage bestInvMessage = new PopulationMessage(
+                            message.getPopulation(), message.getGeneration(), message.getIteration(),
+                            message.getCreationTime(), best);
                     crossOverActor.tell(bestInvMessage, getSelf());
                 })
                 .build();
     }
 
+    public static Individual bestOfPopulation(Individual[] population) {
+        /*
+         * Returns the best individual of the population.
+         */
+        Individual best = population[0];
+        for (Individual other : population) {
+            if (other.fitness > best.fitness) {
+                best = other;
+            }
+        }
+        return best;
+    }
 
 }
