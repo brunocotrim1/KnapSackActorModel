@@ -11,7 +11,7 @@ import scala.concurrent.Await;
 import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
 
-import static fcul.ppc.utils.Utils.max_iterations;
+import static fcul.ppc.utils.Utils.MAX_ITERATIONS;
 
 public class KnapSackActorModel {
     public static void main(String[] args) {
@@ -25,7 +25,8 @@ public class KnapSackActorModel {
         ActorRef mainActor = system.actorOf(Props.create(MainActor.class,fitnessRouter), "mainActor");
         MutateActor.mainActor = mainActor;
         long startTime = System.nanoTime();
-        for (int i = 1; i <= max_iterations; i++) {
+        //Change Static Iteration Values in Utils.java to increase Number of Simulations running at once
+        for (int i = 1; i <= MAX_ITERATIONS; i++) {
             mainActor.tell(new StartMessage(i), ActorRef.noSender());
         }
 

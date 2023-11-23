@@ -10,7 +10,7 @@ import fcul.ppc.utils.Utils;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static fcul.ppc.utils.Utils.POP_SIZE;
-import static fcul.ppc.utils.Utils.max_iterations;
+import static fcul.ppc.utils.Utils.MAX_ITERATIONS;
 
 public class MainActor extends AbstractActor {
 
@@ -46,7 +46,7 @@ public class MainActor extends AbstractActor {
                 double timeTaken = (message.getFinishTime() - message.getCreationTime()) / 1E9;
                 System.out.println("Finished iteration " + message.getIteration() + " with best individual " +
                         message.getBestIndividual() + "in " + timeTaken + " seconds");
-                if (iteration == max_iterations) {
+                if (iteration == MAX_ITERATIONS) {
                     System.out.println("Finished all iterations");
                     getContext().getSystem().terminate();
                 }
