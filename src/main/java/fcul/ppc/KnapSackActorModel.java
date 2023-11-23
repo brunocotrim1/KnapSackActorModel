@@ -25,7 +25,7 @@ public class KnapSackActorModel {
         ActorRef mainActor = system.actorOf(Props.create(MainActor.class,fitnessRouter), "mainActor");
         MutateActor.mainActor = mainActor;
         long startTime = System.nanoTime();
-        for (int i = 0; i <= max_iterations; i++) {
+        for (int i = 1; i <= max_iterations; i++) {
             mainActor.tell(new StartMessage(i), ActorRef.noSender());
         }
 

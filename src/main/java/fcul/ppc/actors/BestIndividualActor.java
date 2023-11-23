@@ -19,7 +19,7 @@ public class BestIndividualActor extends AbstractActor {
                 .match(PopulationMessage.class, message -> {
                     Individual best = bestOfPopulation(message.getPopulation());
                     System.out.println("Best at generation " + message.getGeneration() + " is " + best + " with "
-                            + best.fitness + "f or iteration " + message.getIteration());
+                            + best.fitness + " for iteration " + message.getIteration());
                     PopulationMessage bestInvMessage = new PopulationMessage(
                             message.getPopulation(), message.getGeneration(), message.getIteration(),
                             message.getCreationTime(), best);

@@ -34,12 +34,11 @@ public class MainActor extends AbstractActor {
         return receiveBuilder().match(StartMessage.class, message -> {
             System.out.println("Starting Iteration " + message.getIteration());
 
-
             PopulationMessage populationMessage = new PopulationMessage(randomPopulation(), 0,
                     message.getIteration(), System.nanoTime(),null);
             fitnessActor.tell(populationMessage, getSelf());
-        }).match(PopulationMessage.class, message -> {
 
+        }).match(PopulationMessage.class, message -> {
 
             if (message.getGeneration() == Utils.N_GENERATIONS) {
                 iteration++;
@@ -54,11 +53,11 @@ public class MainActor extends AbstractActor {
                 return;
             }
 
-
             System.out.println("Starting generation " + message.getGeneration() + " of iteration " + message.getIteration());
             PopulationMessage populationMessage = new PopulationMessage(message.getPopulation(),
                     message.getGeneration() + 1, message.getIteration(), message.getCreationTime(),null);
             fitnessActor.tell(populationMessage, getSelf());
+
         }).build();
     }
 
